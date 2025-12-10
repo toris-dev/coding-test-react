@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import styles from './BuggyCart.module.css';
+import React, { useState, useMemo } from "react";
+import styles from "./BuggyCart.module.css";
 
 /**
  * ## 과제 4: 버그 수정 (고급)
@@ -22,9 +22,9 @@ export interface CartItem {
 }
 
 const initialItems: CartItem[] = [
-  { id: 1, name: 'React 후드티', price: 35000, quantity: 1 },
-  { id: 2, name: 'TypeScript 티셔츠', price: 28000, quantity: 2 },
-  { id: 3, name: 'Vite 머그컵', price: 15000, quantity: 1 },
+  { id: 1, name: "React 후드티", price: 35000, quantity: 1 },
+  { id: 2, name: "TypeScript 티셔츠", price: 28000, quantity: 2 },
+  { id: 3, name: "Vite 머그컵", price: 15000, quantity: 1 },
 ];
 
 const BuggyCart: React.FC = () => {
@@ -32,15 +32,15 @@ const BuggyCart: React.FC = () => {
 
   // 버그가 있는 Handler
   const handleIncreaseQuantity = (itemId: number) => {
-    const itemToUpdate = items.find(item => item.id === itemId);
+    const itemToUpdate = items.find((item) => item.id === itemId);
     if (itemToUpdate) {
       itemToUpdate.quantity += 1;
-      setItems(items);
+      setItems([...items]);
     }
   };
 
   const totalPrice = useMemo(() => {
-    console.log('총가격을 다시 계산합니다...');
+    console.log("총가격을 다시 계산합니다...");
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
   }, [items]);
 
@@ -49,16 +49,19 @@ const BuggyCart: React.FC = () => {
       <h2>과제 4: 버그 수정하기</h2>
       <div className={styles.description}>
         <p>
-          <code>BuggyCart.tsx</code>의 <code>handleIncreaseQuantity</code> 함수를 수정하여,
+          <code>BuggyCart.tsx</code>의 <code>handleIncreaseQuantity</code>{" "}
+          함수를 수정하여,
           <br />
           수량 변경 시 총가격이 즉시 업데이트되도록 만드세요.
         </p>
       </div>
       <ul className={styles.itemList}>
-        {items.map(item => (
+        {items.map((item) => (
           <li key={item.id} className={styles.item}>
             <span className={styles.itemName}>{item.name}</span>
-            <span className={styles.itemPrice}>{item.price.toLocaleString()}원</span>
+            <span className={styles.itemPrice}>
+              {item.price.toLocaleString()}원
+            </span>
             <div className={styles.quantityControl}>
               <span>수량: {item.quantity}</span>
               <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
