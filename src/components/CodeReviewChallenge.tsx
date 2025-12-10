@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./CodeReviewChallenge.module.css";
 
 /**
@@ -42,7 +42,7 @@ const fetchUsers = (): Promise<UserData[]> => {
 
 const UserList = () => {
   // 코드리뷰 : any 로 타입을 선언하지 말고 UserData[] 의 타입을 선언하세요
-  const [users, setUsers] = useState<any[]>([]); // state 1
+  const [users, setUsers] = useState<UserData[]>([]); // state 1
   const [filter, setFilter] = useState(""); // state 2
   const [loading, setLoading] = useState(true); // state 3
   const [showAdminsOnly, setShowAdminsOnly] = useState(false); // state 4
@@ -58,12 +58,16 @@ const UserList = () => {
 
   // 코드 리뷰 : 매 랜더링 마다 재계산이 되고 있으니 useMemo 을 사용하여 filter, showAdminsOnly 가 변경될 때만 재계산되도록 수정하세요.
   // 필터링 로직
-  const filteredUsers = users.filter((user) => {
-    const nameMatches = user.name.includes(filter);
-    const emailMatches = user.email.includes(filter);
-    const adminMatches = !showAdminsOnly || user.isAdmin;
-    return (nameMatches || emailMatches) && adminMatches;
-  });
+  const filteredUsers = useMemo<UserData[]>(
+    () =>
+      users.filter((user) => {
+        const nameMatches = user.name.includes(filter);
+        const emailMatches = user.email.includes(filter);
+        const adminMatches = !showAdminsOnly || user.isAdmin;
+        return (nameMatches || emailMatches) && adminMatches;
+      }),
+    [users, filter, showAdminsOnly]
+  );
 
   return (
     <div className={styles.container}>
@@ -106,9 +110,12 @@ const UserList = () => {
               <tr key={u.id}>
                 <td>{u.name}</td>
                 <td>{u.email}</td>
-                {/* 코드리뷰 : 인라인 스타일을 제거하고 변수로 관리하세요. */}
+                {/* 코드 리뷰 : 인라인 스타일을 제거하고 변수로 관리하세요. */}
                 {/* 역할(Role) 표시 */}
-                <td style={{ color: u.isAdmin ? "blue" : "black" }}>
+                <td
+                  className={`${styles.roleCell} 
+                    ${u.isAdmin ? styles.roleAdmin : styles.roleUser}`}
+                >
                   {u.isAdmin ? "Admin" : "User"}
                 </td>
               </tr>
