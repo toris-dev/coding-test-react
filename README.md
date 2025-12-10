@@ -28,7 +28,7 @@ npm run dev
 ### 3. 테스트 실행
 
 - 제공된 Unit Test를 실행하여 데이터 조작 및 버그 수정 문제의 정답 여부를 확인할 수 있습니다.
-- Visual Source Code 사용시 Vitest 확장프로그램을 설치하시면 좀 더 편리하게 테스트를 확인 하실 수 있습니다.
+- Visual Studio Code 사용시 Vitest 확장프로그램을 설치하시면 좀 더 편리하게 테스트를 확인 하실 수 있습니다.
 
 ```bash
 npm run test
